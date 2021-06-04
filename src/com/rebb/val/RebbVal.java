@@ -39,9 +39,9 @@ public class RebbVal {
 //        this.object = object;
 
         CharStream input = CharStreams.fromString(condition);
-        ValidLexer lexer = new ValidLexer(input);
+        RebbValLexer lexer = new RebbValLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        ValidParser parser = new ValidParser(tokens);
+        RebbValParser parser = new RebbValParser(tokens);
         ParseTree tree = parser.unaryTest(); // parse
 
         engine.setObject(object);
