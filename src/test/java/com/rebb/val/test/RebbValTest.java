@@ -1,4 +1,4 @@
-package com.rebb.val.test;
+package test.java.com.rebb.val.test;
 
 import com.rebb.val.DemoCustomValidator;
 import com.rebb.val.RebbVal;
