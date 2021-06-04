@@ -64,4 +64,4 @@ v.val(60, ">18 and <60") // false
 v.val(60, ">18 or <60") // true
 ```
 
-[Document](https://willking.gitbook.io/rebb-val/)
+[Full Document](https://willking.gitbook.io/rebb-val/)
