@@ -280,6 +280,19 @@ public class RebbValTest {
         assertEquals(0,v.getErrors().size());
     }
 
+    @Test
+    public void testDateFunction()
+    {
+        RebbVal v = new RebbVal();
+        String condition = "between 2020-01-01 and 2021-01-01";
+        assertTrue(v.val(v.date("2020-05-01"), condition));
+
+        assertNull(v.date("20200501"));
+        assertEquals("Parse date string error, java.text.ParseException: Unparseable date: \"20200501\"", v.getErrors().get(0));
+
+        assertFalse(v.val(v.date("20200501"), condition));
+        assertEquals("object is null(Unsupported object type)", v.getErrors().get(0));
+    }
 
     @Test
     public void testDateBetween()

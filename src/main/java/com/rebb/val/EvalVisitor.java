@@ -54,6 +54,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else if(obj instanceof String)
             this.obj = obj;
         else {
+            this.obj = obj;
             this.valid = false;
             this.error = UnsupportedObjectType;
         }

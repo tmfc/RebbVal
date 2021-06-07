@@ -3,6 +3,8 @@ package com.rebb.val;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -19,6 +21,23 @@ public class RebbVal {
         this.errors = new ArrayList<String>();
 //        this.condition = condition;
 //        this.object = object;
+    }
+
+    public Date date(String str)
+    {
+        return date(str, "yyyy-MM-dd");
+    }
+
+    public Date date(String str, String pattern)
+    {
+        SimpleDateFormat ft = new SimpleDateFormat (pattern);
+        try {
+            return ft.parse(str);
+        } catch (ParseException e) {
+//            e.printStackTrace();
+            this.errors.add("Parse date string error, " + e.toString());
+            return null;
+        }
     }
 
     public void registerCustomValidator(String name, Class clazz)
@@ -66,7 +85,11 @@ public class RebbVal {
         if(!engine.isValid())
         {
             this.has_error = true;
-            String error_message = object.toString() + " " + condition + " failed";
+            String error_message;
+            if(object == null)
+                error_message = "object is null";
+            else
+                error_message = object.toString() + " " + condition + " failed";
             if(engine.getError() != null && !engine.getError().equals(""))
                 error_message += "(" + engine.getError() + ")";
             this.errors.add(error_message);
