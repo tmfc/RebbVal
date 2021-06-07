@@ -523,39 +523,39 @@ public class RebbValTest {
     public void testStringEqual()
     {
         RebbVal v = new RebbVal();
-        assertTrue(v.val("a string","=\"a string\""));
-        assertFalse(v.val("not a string","=\"a string\""));
+        assertTrue(v.val("a string","='a string'"));
+        assertFalse(v.val("not a string","='a string'"));
     }
 
     @Test
     public void testStringCompare()
     {
         RebbVal v = new RebbVal();
-        assertFalse(v.val("a string",">\"a string\""));
-        assertEquals("a string >\"a string\" failed(Unsupported Operation)", v.getErrors().get(0));
-        assertFalse(v.val("not a string","<\"a string\""));
-        assertEquals("not a string <\"a string\" failed(Unsupported Operation)", v.getErrors().get(0));
+        assertFalse(v.val("a string",">'a string'"));
+        assertEquals("a string >'a string' failed(Unsupported Operation)", v.getErrors().get(0));
+        assertFalse(v.val("not a string","<'a string'"));
+        assertEquals("not a string <'a string' failed(Unsupported Operation)", v.getErrors().get(0));
     }
 
     @Test
     public void testStringPosition()
     {
         RebbVal v = new RebbVal();
-        assertTrue(v.val("This string", "starts with \"This\""));
-        assertTrue(v.val("This string", "ends with \"string\""));
+        assertTrue(v.val("This string", "starts with 'This'"));
+        assertTrue(v.val("This string", "ends with 'string'"));
     }
     @Test
     public void testStringIn()
     {
         RebbVal v = new RebbVal();
-        assertTrue(v.val("string", "in \"a longer string\""));
+        assertTrue(v.val("string", "in 'a longer string'"));
     }
 
     @Test
     public void testStringContains()
     {
         RebbVal v = new RebbVal();
-        assertTrue(v.val("a longer string", "contains \"string\""));
+        assertTrue(v.val("a longer string", "contains 'string'"));
     }
     @Test
     public void testStringNotEmpty()
