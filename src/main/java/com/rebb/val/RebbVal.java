@@ -40,6 +40,11 @@ public class RebbVal {
         }
     }
 
+    public Date year(String str)
+    {
+        return date(str + "-01-01");
+    }
+
     public void registerCustomValidator(String name, Class clazz)
     {
         engine.registerCustomValidator(name, clazz);

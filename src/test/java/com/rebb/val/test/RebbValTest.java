@@ -16,7 +16,9 @@ public class RebbValTest {
     public void testUnaryTests() {
         RebbVal v = new RebbVal();
         assertTrue(v.val(10000, ">10 and <1000 or =10000"));
+        assertTrue(v.val(1000, ">10 and <100000 and !=10000"));
         assertFalse(v.val(1000, ">10 and <100 or =10000"));
+        assertTrue(v.val(1000, ">100 or <10 or =10000"));
     }
 
     @Test
@@ -375,6 +377,14 @@ public class RebbValTest {
 
         assertTrue(v.val(1,"is true"));
         assertTrue(v.val(0,"is false"));
+    }
+
+    @Test
+    public void testYearFunction()
+    {
+        RebbVal v = new RebbVal();
+        assertTrue(v.val(v.year("2000"), "is leapyear"));
+        assertFalse(v.val(v.year("2001"), "is leapyear"));
     }
 
     @Test

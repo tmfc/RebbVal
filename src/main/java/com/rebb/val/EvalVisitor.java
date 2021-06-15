@@ -117,7 +117,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         {
             boolean value0 = (Boolean)getValue(unaryCtx0);
             boolean value1 = (Boolean)getValue(unaryCtx1);
-            setValue(ctx, value0 && value1);
+            setValue(ctx, value0 || value1);
             this.valid = value0 || value1;
         }
         else
