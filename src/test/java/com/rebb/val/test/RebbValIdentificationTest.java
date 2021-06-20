@@ -1,12 +1,8 @@
 package com.rebb.val.test;
 
-import com.rebb.val.DemoCustomValidator;
 import com.rebb.val.RebbVal;
 import org.junit.jupiter.api.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
