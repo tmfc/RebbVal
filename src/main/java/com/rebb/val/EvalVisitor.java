@@ -189,8 +189,9 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
 
     @Override
     public Void visitString(RebbValParser.StringContext ctx) {
-        if(ctx.StringLiteral().getText() != null)
-            setValue(ctx, ctx.StringLiteral().getText().substring(1,ctx.StringLiteral().getText().length() -1));
+        String str = ctx.StringLiteral().getText();
+        if(str != null)
+            setValue(ctx, str.substring(1, str.length() -1));
         return null;
     }
 
@@ -256,7 +257,6 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             }
             else {
                 setValue(ctx, false);
-                this.valid = false;
             }
         }
         else if(this.obj instanceof Date && l_value instanceof Date && r_value instanceof Date)
@@ -270,7 +270,6 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             }
             else {
                 setValue(ctx, false);
-                this.valid = false;
             }
         }
         else
