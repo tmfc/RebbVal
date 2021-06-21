@@ -492,8 +492,8 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             now.setTime(new Date());
 
             long y = now.get(Calendar.YEAR) - birth.get(Calendar.YEAR);
-            if (now.get(Calendar.MONTH) > birth.get(Calendar.MONTH) ||
-                    (now.get(Calendar.MONTH) == birth.get(Calendar.MONTH) && now.get(Calendar.DATE) > birth.get(Calendar.DATE))) {
+            if (now.get(Calendar.MONTH) < birth.get(Calendar.MONTH) ||
+                    (now.get(Calendar.MONTH) == birth.get(Calendar.MONTH) && now.get(Calendar.DATE) < birth.get(Calendar.DATE))) {
                 y--;
             }
             BigDecimal diff = BigDecimal.valueOf(y);
@@ -501,7 +501,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             BigDecimal exprValue = (BigDecimal) getValue(ctx.expression());
             switch(ctx.op.getType()) {
                 case RebbValParser.OLDER:
-                    result = diff.compareTo(exprValue)  > 0;
+                    result = diff.compareTo(exprValue)  >= 0;
                     break;
                 case RebbValParser.YOUNGER:
                     result = diff.compareTo(exprValue) < 0;

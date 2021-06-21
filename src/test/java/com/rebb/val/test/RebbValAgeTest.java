@@ -25,6 +25,14 @@ public class RebbValAgeTest {
             Date date2 = ft.parse("1980-05-01");
             assertFalse(v.val(date2, "younger than 18"));
             assertTrue(v.val(date2, "older than 18"));
+
+            assertFalse(v.val(v.date("2003-01-01"), "younger than 18"));
+            assertTrue(v.val(v.date("2003-01-01"), "older than 18"));
+
+            assertTrue(v.val(v.date("2004-01-01"), "younger than 18"));
+            assertFalse(v.val(v.date("2004-01-01"), "older than 18"));
+
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
