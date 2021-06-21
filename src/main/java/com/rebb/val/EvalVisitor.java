@@ -26,6 +26,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
     private final String UnsupportedObjectType = "Unsupported object type";
     private final String ObjectTypeNotBoolean = "Object is not a boolean";
     private final String ObjectTypeNotDate = "Object is not a Date";
+    private final String ObjectTypeNotString = "Object is not a String";
     private final String ExpressionValueTypeNotMatch = "Expression value type not match";
 
     public EvalVisitor(Object obj)
@@ -544,7 +545,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
     @Override
     public Void visitIs(RebbValParser.IsContext ctx) {
         BuildInFunctions b = new BuildInFunctions();
-        boolean result = true;
+        boolean result = false;
         switch(ctx.type.getType()) {
             case RebbValParser.TRUE:
                 result = b.checkTrue();
@@ -824,7 +825,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             }
             else
             {
-                error = ObjectTypeNotDate;
+                error = ObjectTypeNotString;
                 return false;
             }
         }
@@ -1009,7 +1010,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             }
             else
             {
-                error = ObjectTypeNotDate;
+                error = ObjectTypeNotString;
                 return false;
             }
         }

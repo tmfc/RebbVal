@@ -13,7 +13,7 @@ public class RebbValInternetTest {
         RebbVal v = new RebbVal();
         assertTrue(v.val("google.com", "is domain"));
         assertTrue(v.val("www.baidu.com", "is domain"));
-        assertFalse(v.val("fdsads", "is domain"));
+        assertFalse(v.val("", "is domain"));
     }
     @Test
     public void testEmail() {
@@ -46,7 +46,7 @@ public class RebbValInternetTest {
         assertFalse(v.val("123::456:789:abc:def:6:7", "is ipv6"));
 
         assertTrue(v.val("123:456::789", "is ipv6"));
-        assertTrue(v.val("123:456::789:abc", "is ipv6"));
+        assertTrue(v.val("123:456::789:abc:def", "is ipv6"));
         assertTrue(v.val("123:456::789:abc:def:6666", "is ipv6"));
         assertFalse(v.val("123:456::789:abc:def:6666:7", "is ipv6"));
 
@@ -97,4 +97,3 @@ public class RebbValInternetTest {
     }
 
 }
-
