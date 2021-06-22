@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -835,11 +836,6 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             String regex = "^((https?:)(\\/\\/\\/?)([\\w]*(?::[\\w]*)?@)?([\\d\\w\\.-]+)(?::(\\d+))?)?([\\/\\\\\\w\\.()-]*)?(?:([?][^#]*)?(#.*)?)*$";
             return checkRegex(regex);
         }
-        public boolean checkMac()
-        {
-            String regex = "^((?:[a-fA-F0-9]{2}[:-]){5}[a-fA-F0-9]{2})$";
-            return checkRegex(regex);
-        }
 
         public boolean checkIMEI()
         {
@@ -902,6 +898,17 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             return false;
         }
 
+        public boolean checkUUID() {
+            String regex = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
+            return checkRegex(regex);
+        }
+
+        public boolean checkMac()
+        {
+            String regex = "^((?:[a-fA-F0-9]{2}[:-]){5}[a-fA-F0-9]{2})$";
+            return checkRegex(regex);
+        }
+
         public boolean checkPercentage() {
             String regex =  "^-?[1][0][0](\\.[0]{0,2})?%$|^-?[1-9]?[0-9](\\.[0-9]{0,2})?%$";
             return checkRegex(regex);
@@ -947,11 +954,6 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             return checkRegex(regex);
         }
 
-        public boolean checkUUID() {
-            String regex = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
-            return checkRegex(regex);
-        }
-
         public boolean checkGBCode() {
             String regex = "^\\d{6}$";
             boolean regexResult = checkRegex(regex);
@@ -982,9 +984,13 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             //check birthday
             String birthday = id.substring(6,14);
             try {
-                Date date =new SimpleDateFormat("yyyyMMdd").parse(birthday);
+                DateFormat df = new SimpleDateFormat("yyyyMMdd");
+                Date date = df.parse(birthday);
+                if(!df.format(date).equals(birthday))
+                    return false;
             } catch (ParseException e) {
                 error = e.getMessage();
+                return false;
             }
 
             //checksum

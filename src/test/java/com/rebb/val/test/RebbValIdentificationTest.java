@@ -33,14 +33,6 @@ public class RebbValIdentificationTest {
     }
 
     @Test
-    public void testMac() {
-        RebbVal v = new RebbVal();
-        assertTrue(v.val("00:11:22:33:44:55", "is MAC"));
-        assertTrue(v.val("00-11-22-33-44-55", "is MAC"));
-        assertFalse(v.val("00:11:22:33:44:GG", "is MAC"));
-    }
-
-    @Test
     public void testUUID()
     {
         RebbVal v = new RebbVal();
@@ -49,20 +41,20 @@ public class RebbValIdentificationTest {
     }
 
     @Test
-    public void testGBCode()
-    {
+    public void testMac() {
         RebbVal v = new RebbVal();
-        assertTrue(v.val("110101", "is gbcode"));
-        assertFalse(v.val("100100", "is gbcode"));
-        assertFalse(v.val("13113113111", "is gbcode"));
+        assertTrue(v.val("00:11:22:33:44:55", "is MAC"));
+        assertTrue(v.val("00-11-22-33-44-55", "is MAC"));
+        assertFalse(v.val("00:11:22:33:44:GG", "is MAC"));
     }
+
     @Test
     public void testID()
     {
         RebbVal v = new RebbVal();
         assertTrue(v.val("140303192005236131","is ID"));
         assertFalse(v.val("110100199909093245","is ID"));
+        assertFalse(v.val("110100199902313244","is ID"));
     }
-
 }
 
