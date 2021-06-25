@@ -668,7 +668,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         }
         else
         {
-            this.valid = false;
+            this.setValue(ctx, false);
             this.error = UnsupportedObjectType;
         }
         return null;

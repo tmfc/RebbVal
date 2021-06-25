@@ -57,4 +57,3 @@ public class RebbValIdentificationTest {
         assertFalse(v.val("110100199902313244","is ID"));
     }
 }
-
