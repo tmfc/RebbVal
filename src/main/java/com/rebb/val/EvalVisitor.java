@@ -87,7 +87,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         customFunctions.put(name, clazz);
     }
 
-
+    //Unary Test and Combination begin
     @Override
     public Void visitConjunction(RebbValParser.ConjunctionContext ctx) {
         RebbValParser.UnaryTestsContext unaryCtx0 = ctx.unaryTests();
@@ -189,6 +189,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         setValue(ctx, getValue(ctx.expression()));
         return null;
     }
+    //Unary Test and Combination end
 
     //Basic element start
     /** String */
