@@ -87,6 +87,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         customFunctions.put(name, clazz);
     }
 
+
     @Override
     public Void visitConjunction(RebbValParser.ConjunctionContext ctx) {
         RebbValParser.UnaryTestsContext unaryCtx0 = ctx.unaryTests();
@@ -189,6 +190,8 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         return null;
     }
 
+    //Basic element start
+    /** String */
     @Override
     public Void visitString(RebbValParser.StringContext ctx) {
         String str = ctx.StringLiteral().getText();
@@ -223,6 +226,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         return null;
     }
 
+    /** Array */
     @Override
     public Void visitArray(RebbValParser.ArrayContext ctx) {
         try {
@@ -241,6 +245,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         return null;
 
     }
+    //Basic element end
 
     @Override
     public Void visitBetween(RebbValParser.BetweenContext ctx) {
