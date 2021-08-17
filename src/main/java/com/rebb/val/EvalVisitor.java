@@ -24,7 +24,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
 
     private String error;
     private boolean valid;
-    private final String UnsupportedObjectType = "Unsupported object type";
+    private final String ObjectTypeNotSupported = "Object type not supported";
     private final String ObjectTypeNotBoolean = "Object is not a boolean";
     private final String ObjectTypeNotDate = "Object is not a Date";
     private final String ObjectTypeNotString = "Object is not a String";
@@ -58,7 +58,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else {
             this.obj = obj;
             this.valid = false;
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
     }
 
@@ -283,7 +283,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -307,7 +307,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -325,7 +325,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
                 setValue(ctx, false);
         } else {
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -337,7 +337,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -357,7 +357,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             else
             {
                 setValue(ctx, false);
-                this.error = UnsupportedObjectType;
+                this.error = ObjectTypeNotSupported;
             }
         } catch(NumberFormatException e)
         {
@@ -393,7 +393,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         }
         else{
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -452,7 +452,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -524,7 +524,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             this.valid = false;
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -647,7 +647,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             this.valid = false;
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
 
         return null;
@@ -675,7 +675,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             this.setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -723,6 +723,8 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
     class BuildInFunctions
     {
         Calendar calendar = Calendar.getInstance();
+        private String[] trueString = new String[] {"true","on", "1", "yes","ok"};
+        ArrayList<String> trueStringList = new ArrayList<>(Arrays.asList(trueString));
 
         public boolean checkTrue()
         {
@@ -732,9 +734,13 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             else if(obj instanceof BigDecimal) {
                 return ((BigDecimal) obj).compareTo(BigDecimal.valueOf(0)) != 0;
             }
+            else if(obj instanceof String) {
+                String s = (String)obj;
+                return trueStringList.contains(s);
+            }
             else
             {
-                error = ObjectTypeNotBoolean;
+                error = ObjectTypeNotSupported;
                 return false;
             }
         }

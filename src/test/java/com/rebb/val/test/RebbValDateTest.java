@@ -22,7 +22,7 @@ public class RebbValDateTest {
         assertEquals("Parse date string error, java.text.ParseException: Unparseable date: \"20200501\"", v.getErrors().get(0));
 
         assertFalse(v.val(v.date("20200501"), condition));
-        assertEquals("object is null(Unsupported object type)", v.getErrors().get(0));
+        assertEquals("object is null(Object type not supported)", v.getErrors().get(0));
     }
 
     @Test
