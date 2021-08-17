@@ -20,6 +20,7 @@ public class RebbValBooleanTest {
         assertTrue(v.val(1,"is true"));
         assertFalse(v.val(0,"is true"));
     }
+
     @Test
     public void testStringTrue() {
         RebbVal v = new RebbVal();
@@ -28,7 +29,6 @@ public class RebbValBooleanTest {
         assertTrue(v.val("true","is true"));
         assertTrue(v.val("yes","is true"));
         assertFalse(v.val("0","is true"));
-
     }
 
     @Test
@@ -45,6 +45,16 @@ public class RebbValBooleanTest {
         RebbVal v = new RebbVal();
         assertTrue(v.val(0,"is false"));
         assertFalse(v.val(1,"is false"));
+    }
+
+    @Test
+    public void testStringFalse() {
+        RebbVal v = new RebbVal();
+        assertFalse(v.val("1","is false"));
+        assertFalse(v.val("on","is false"));
+        assertFalse(v.val("true","is false"));
+        assertFalse(v.val("yes","is false"));
+        assertTrue(v.val("0","is false"));
     }
 }
 

@@ -753,6 +753,10 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             else if(obj instanceof BigDecimal) {
                 return ((BigDecimal) obj).compareTo(BigDecimal.valueOf(0)) == 0;
             }
+            else if(obj instanceof String) {
+                String s = (String)obj;
+                return !trueStringList.contains(s);
+            }
             else
             {
                 error = ObjectTypeNotBoolean;
