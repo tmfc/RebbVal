@@ -15,9 +15,11 @@ public class RebbVal {
     private boolean has_error;
     private List<String> errors;
 
+    static private HashMap<Integer, Object> global_config = new HashMap<>();
+
     public RebbVal()
     {
-        this.engine = new EvalVisitor("");
+        this.engine = new EvalVisitor("", global_config);
         this.errors = new ArrayList<String>();
 //        this.condition = condition;
 //        this.object = object;
@@ -57,6 +59,15 @@ public class RebbVal {
         return engine.getTimezone();
     }
 
+    public static void addGlobalConfig(Integer key, Object value)
+    {
+        global_config.put(key, value);
+    }
+
+    public void addConfig(Integer key, Object value)
+    {
+        this.engine.addConfig(key, value);
+    }
     public boolean validate(Object object, String condition)
     {
 //        this.condition = condition;

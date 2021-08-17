@@ -17,6 +17,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
     ParseTreeProperty<Object> values = new ParseTreeProperty<Object>();
 
     Map<String, Class> customFunctions = new HashMap<>();
+    HashMap<Integer, Object> config = new HashMap<>();
 
     private Locale timezone;
 
@@ -30,10 +31,11 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
     private final String ObjectTypeNotString = "Object is not a String";
     private final String ExpressionValueTypeNotMatch = "Expression value type not match";
 
-    public EvalVisitor(Object obj)
+    public EvalVisitor(Object obj, HashMap<Integer,Object> global_config)
     {
         setTimezone(Locale.CHINA);
         this.setObject(obj);
+        this.initConfig(global_config);
     }
 
     public void setObject(Object obj)
@@ -60,6 +62,27 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             this.valid = false;
             this.error = ObjectTypeNotSupported;
         }
+    }
+
+    private void initConfig(HashMap<Integer,Object> global_config)
+    {
+        if(global_config != null)
+        {
+            this.config = (HashMap<Integer, Object>) global_config.clone();
+        }
+        else
+            this.config = new HashMap<Integer, Object>();
+        if(!this.config.containsKey(RebbValConfig.TRUE_STRING))
+        {
+            String[] trueStringDefault = new String[] {"true","on", "1", "yes","ok"};
+//            ArrayList<String> trueStringListDefault = new ArrayList<>(Arrays.asList(trueStringDefault));
+            this.config.put(RebbValConfig.TRUE_STRING, trueStringDefault);
+        }
+    }
+
+    public void addConfig(Integer key, Object value)
+    {
+        this.config.put(key, value);
     }
 
     public void setTimezone(Locale timezone)
@@ -531,7 +554,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
 
     @Override
     public Void visitIsHex(RebbValParser.IsHexContext ctx) {
-        BuildInFunctions b = new BuildInFunctions();
+        BuildInFunctions b = new BuildInFunctions(this.config);
         boolean result = true;
         switch (ctx.type.getType()) {
             case RebbValParser.COLOR:
@@ -551,7 +574,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
 
     @Override
     public Void visitIs(RebbValParser.IsContext ctx) {
-        BuildInFunctions b = new BuildInFunctions();
+        BuildInFunctions b = new BuildInFunctions(this.config);
         boolean result = false;
         switch(ctx.type.getType()) {
             case RebbValParser.TRUE:
@@ -723,9 +746,14 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
     class BuildInFunctions
     {
         Calendar calendar = Calendar.getInstance();
-        private String[] trueString = new String[] {"true","on", "1", "yes","ok"};
-        ArrayList<String> trueStringList = new ArrayList<>(Arrays.asList(trueString));
+        private Map<Integer, Object> config;
+//        private String[] trueString = new String[] {"true","on", "1", "yes","ok"};
+//        ArrayList<String> trueStringList = new ArrayList<>(Arrays.asList(trueString));
 
+        public BuildInFunctions(Map<Integer, Object> config)
+        {
+            this.config = config;
+        }
         public boolean checkTrue()
         {
             if(obj instanceof Boolean) {
@@ -736,7 +764,13 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             }
             else if(obj instanceof String) {
                 String s = (String)obj;
-                return trueStringList.contains(s);
+                if(this.config.containsKey(RebbValConfig.TRUE_STRING) && this.config.get(RebbValConfig.TRUE_STRING) instanceof String[])
+                {
+                    String[] trueStringList = (String[]) this.config.get(RebbValConfig.TRUE_STRING);
+                    return Arrays.asList(trueStringList).contains(s);
+                }
+                else
+                    return false;
             }
             else
             {
@@ -754,8 +788,13 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
                 return ((BigDecimal) obj).compareTo(BigDecimal.valueOf(0)) == 0;
             }
             else if(obj instanceof String) {
-                String s = (String)obj;
-                return !trueStringList.contains(s);
+                String s = (String) obj;
+                if(this.config.containsKey(RebbValConfig.TRUE_STRING) && this.config.get(RebbValConfig.TRUE_STRING) instanceof String[])
+                {
+                    String[] trueStringList = (String[]) this.config.get(RebbValConfig.TRUE_STRING);
+                    return !Arrays.asList(trueStringList).contains(s);
+                } else
+                    return false;
             }
             else
             {
