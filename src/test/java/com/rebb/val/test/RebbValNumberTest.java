@@ -15,7 +15,7 @@ public class RebbValNumberTest {
         // string
         assertFalse(v.val("10", condition));
         assertEquals(1,v.getErrors().size());
-        assertEquals("10 between 10 and 20 failed(Unsupported object type)",v.getErrors().get(0));
+        assertEquals("10 between 10 and 20 failed(Object type not supported)",v.getErrors().get(0));
 
         // double
         assertTrue(v.val(10.0,condition));
@@ -48,7 +48,7 @@ public class RebbValNumberTest {
         // string
         assertFalse(v.val("10", condition));
         assertEquals(1,v.getErrors().size());
-        assertEquals("10 [5..20] failed(Unsupported object type)",v.getErrors().get(0));
+        assertEquals("10 [5..20] failed(Object type not supported)",v.getErrors().get(0));
 
         // double
         assertTrue(v.val(10.0,condition));
@@ -91,7 +91,7 @@ public class RebbValNumberTest {
         // string
         assertFalse(v.val("10", condition));
         assertEquals(1,v.getErrors().size());
-        assertEquals("10 =10 failed(Unsupported object type)",v.getErrors().get(0));
+        assertEquals("10 =10 failed(Object type not supported)",v.getErrors().get(0));
 
         // double
         assertTrue(v.val(10.0,condition));
@@ -124,7 +124,7 @@ public class RebbValNumberTest {
         // string
         assertFalse(v.val("100", condition));
         assertEquals(1,v.getErrors().size());
-        assertEquals("100 !=10 failed(Unsupported object type)",v.getErrors().get(0));
+        assertEquals("100 !=10 failed(Object type not supported)",v.getErrors().get(0));
 
         // double
         assertTrue(v.val(100.0,condition));
@@ -157,7 +157,7 @@ public class RebbValNumberTest {
         // string
         assertFalse(v.val("10", condition));
         assertEquals(1,v.getErrors().size());
-        assertEquals("10 <100 failed(Unsupported object type)",v.getErrors().get(0));
+        assertEquals("10 <100 failed(Object type not supported)",v.getErrors().get(0));
 
         // double
         assertTrue(v.val(10.0,condition));
@@ -190,7 +190,7 @@ public class RebbValNumberTest {
         // string
         assertFalse(v.val("10", condition));
         assertEquals(1,v.getErrors().size());
-        assertEquals("10 <=100 failed(Unsupported object type)",v.getErrors().get(0));
+        assertEquals("10 <=100 failed(Object type not supported)",v.getErrors().get(0));
 
         // double
         assertTrue(v.val(10.0,condition));
@@ -223,7 +223,7 @@ public class RebbValNumberTest {
         // string
         assertFalse(v.val("10", condition));
         assertEquals(1,v.getErrors().size());
-        assertEquals("10 >1 failed(Unsupported object type)",v.getErrors().get(0));
+        assertEquals("10 >1 failed(Object type not supported)",v.getErrors().get(0));
 
         // double
         assertTrue(v.val(10.0,condition));
@@ -256,7 +256,7 @@ public class RebbValNumberTest {
         // string
         assertFalse(v.val("10", condition));
         assertEquals(1,v.getErrors().size());
-        assertEquals("10 >=10 failed(Unsupported object type)",v.getErrors().get(0));
+        assertEquals("10 >=10 failed(Object type not supported)",v.getErrors().get(0));
 
         // double
         assertTrue(v.val(10.0,condition));

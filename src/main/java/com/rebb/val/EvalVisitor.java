@@ -17,6 +17,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
     ParseTreeProperty<Object> values = new ParseTreeProperty<Object>();
 
     Map<String, Class> customFunctions = new HashMap<>();
+    HashMap<Integer, Object> config = new HashMap<>();
 
     private Locale timezone;
 
@@ -24,16 +25,17 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
 
     private String error;
     private boolean valid;
-    private final String UnsupportedObjectType = "Unsupported object type";
+    private final String ObjectTypeNotSupported = "Object type not supported";
     private final String ObjectTypeNotBoolean = "Object is not a boolean";
     private final String ObjectTypeNotDate = "Object is not a Date";
     private final String ObjectTypeNotString = "Object is not a String";
     private final String ExpressionValueTypeNotMatch = "Expression value type not match";
 
-    public EvalVisitor(Object obj)
+    public EvalVisitor(Object obj, HashMap<Integer,Object> global_config)
     {
         setTimezone(Locale.CHINA);
         this.setObject(obj);
+        this.initConfig(global_config);
     }
 
     public void setObject(Object obj)
@@ -58,8 +60,29 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else {
             this.obj = obj;
             this.valid = false;
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
+    }
+
+    private void initConfig(HashMap<Integer,Object> global_config)
+    {
+        if(global_config != null)
+        {
+            this.config = (HashMap<Integer, Object>) global_config.clone();
+        }
+        else
+            this.config = new HashMap<Integer, Object>();
+        if(!this.config.containsKey(RebbValConfig.TRUE_STRING))
+        {
+            String[] trueStringDefault = new String[] {"true","on", "1", "yes","ok"};
+//            ArrayList<String> trueStringListDefault = new ArrayList<>(Arrays.asList(trueStringDefault));
+            this.config.put(RebbValConfig.TRUE_STRING, trueStringDefault);
+        }
+    }
+
+    public void addConfig(Integer key, Object value)
+    {
+        this.config.put(key, value);
     }
 
     public void setTimezone(Locale timezone)
@@ -87,6 +110,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         customFunctions.put(name, clazz);
     }
 
+    //Unary Test and Combination begin
     @Override
     public Void visitConjunction(RebbValParser.ConjunctionContext ctx) {
         RebbValParser.UnaryTestsContext unaryCtx0 = ctx.unaryTests();
@@ -188,7 +212,10 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         setValue(ctx, getValue(ctx.expression()));
         return null;
     }
+    //Unary Test and Combination end
 
+    //Basic element start
+    /** String */
     @Override
     public Void visitString(RebbValParser.StringContext ctx) {
         String str = ctx.StringLiteral().getText();
@@ -223,6 +250,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         return null;
     }
 
+    /** Array */
     @Override
     public Void visitArray(RebbValParser.ArrayContext ctx) {
         try {
@@ -241,6 +269,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         return null;
 
     }
+    //Basic element end
 
     @Override
     public Void visitBetween(RebbValParser.BetweenContext ctx) {
@@ -277,7 +306,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -301,7 +330,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -319,7 +348,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
                 setValue(ctx, false);
         } else {
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -331,7 +360,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -351,7 +380,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             else
             {
                 setValue(ctx, false);
-                this.error = UnsupportedObjectType;
+                this.error = ObjectTypeNotSupported;
             }
         } catch(NumberFormatException e)
         {
@@ -387,7 +416,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         }
         else{
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -446,7 +475,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -518,14 +547,14 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             this.valid = false;
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
 
     @Override
     public Void visitIsHex(RebbValParser.IsHexContext ctx) {
-        BuildInFunctions b = new BuildInFunctions();
+        BuildInFunctions b = new BuildInFunctions(this.config);
         boolean result = true;
         switch (ctx.type.getType()) {
             case RebbValParser.COLOR:
@@ -545,7 +574,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
 
     @Override
     public Void visitIs(RebbValParser.IsContext ctx) {
-        BuildInFunctions b = new BuildInFunctions();
+        BuildInFunctions b = new BuildInFunctions(this.config);
         boolean result = false;
         switch(ctx.type.getType()) {
             case RebbValParser.TRUE:
@@ -641,7 +670,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             this.valid = false;
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
 
         return null;
@@ -669,7 +698,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
         else
         {
             this.setValue(ctx, false);
-            this.error = UnsupportedObjectType;
+            this.error = ObjectTypeNotSupported;
         }
         return null;
     }
@@ -717,7 +746,14 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
     class BuildInFunctions
     {
         Calendar calendar = Calendar.getInstance();
+        private Map<Integer, Object> config;
+//        private String[] trueString = new String[] {"true","on", "1", "yes","ok"};
+//        ArrayList<String> trueStringList = new ArrayList<>(Arrays.asList(trueString));
 
+        public BuildInFunctions(Map<Integer, Object> config)
+        {
+            this.config = config;
+        }
         public boolean checkTrue()
         {
             if(obj instanceof Boolean) {
@@ -726,9 +762,19 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             else if(obj instanceof BigDecimal) {
                 return ((BigDecimal) obj).compareTo(BigDecimal.valueOf(0)) != 0;
             }
+            else if(obj instanceof String) {
+                String s = (String)obj;
+                if(this.config.containsKey(RebbValConfig.TRUE_STRING) && this.config.get(RebbValConfig.TRUE_STRING) instanceof String[])
+                {
+                    String[] trueStringList = (String[]) this.config.get(RebbValConfig.TRUE_STRING);
+                    return Arrays.asList(trueStringList).contains(s);
+                }
+                else
+                    return false;
+            }
             else
             {
-                error = ObjectTypeNotBoolean;
+                error = ObjectTypeNotSupported;
                 return false;
             }
         }
@@ -740,6 +786,15 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             }
             else if(obj instanceof BigDecimal) {
                 return ((BigDecimal) obj).compareTo(BigDecimal.valueOf(0)) == 0;
+            }
+            else if(obj instanceof String) {
+                String s = (String) obj;
+                if(this.config.containsKey(RebbValConfig.TRUE_STRING) && this.config.get(RebbValConfig.TRUE_STRING) instanceof String[])
+                {
+                    String[] trueStringList = (String[]) this.config.get(RebbValConfig.TRUE_STRING);
+                    return !Arrays.asList(trueStringList).contains(s);
+                } else
+                    return false;
             }
             else
             {
