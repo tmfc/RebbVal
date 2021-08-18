@@ -12,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RebbValDateTest {
 
     @Test
-    public void testDateFunction()
-    {
+    public void testDateFunction() {
         RebbVal v = new RebbVal();
         String condition = "between 2020-01-01 and 2021-01-01";
         assertTrue(v.val(v.date("2020-05-01"), condition));
@@ -26,12 +25,11 @@ public class RebbValDateTest {
     }
 
     @Test
-    public void testDateBetween()
-    {
+    public void testDateBetween() {
         RebbVal v = new RebbVal();
         String condition = "between 2020-01-01 and 2021-01-01";
 
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         Date date1 = null;
         try {
             date1 = ft.parse("2020-05-01");
@@ -45,32 +43,26 @@ public class RebbValDateTest {
     }
 
     @Test
-    public void testDateInterval()
-    {
+    public void testDateInterval() {
         RebbVal v = new RebbVal();
-        String condition = "[2020-01-01 .. 2021-01-01]";
 
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-        Date date1 = null;
-        try {
-            date1 = ft.parse("2020-05-01");
-            Date date2 = ft.parse("2021-05-01");
-            assertTrue(v.val(date1, condition));
-            assertFalse(v.val(date2, condition));
+        assertTrue(v.val(v.date("2020-05-01"), "[2020-01-01 .. 2021-01-01]"));
+        assertFalse(v.val(v.date("2021-05-01"), "[2020-01-01 .. 2021-01-01]"));
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        assertTrue(v.val(v.date("2020-01-01"), "[2020-01-01 .. 2021-01-01)"));
+        assertFalse(v.val(v.date("2021-01-01"), "[2020-01-01 .. 2021-01-01)"));
+
+        assertFalse(v.val(v.date("2020-01-01"), "(2020-01-01 .. 2021-01-01]"));
+        assertTrue(v.val(v.date("2021-01-01"), "(2020-01-01 .. 2021-01-01]"));
     }
 
     @Test
     public void testDateCompare() {
         RebbVal v = new RebbVal();
 
-        SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
-        Date date1 = null;
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            date1 = ft.parse("2020-05-01");
+            Date date1 = ft.parse("2020-05-01");
 //            Date date2 = ft.parse("2021-05-01");
 
             assertTrue(v.val(date1, "=2020-05-01"));
@@ -102,7 +94,7 @@ public class RebbValDateTest {
     public void testLeapYear() {
         RebbVal v = new RebbVal();
         try {
-            SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+            SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
             Date date = ft.parse("2020-05-01");
             assertTrue(v.val(date, "is leapyear"));
             assertFalse(v.val(date, "is leapday"));
