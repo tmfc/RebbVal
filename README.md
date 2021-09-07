@@ -9,12 +9,16 @@ Is RebbVal a validation library? Nope, RebbVal is a external DSL for validation.
 
 ## Language Support
 
-Currently RebbVal only support Java, in the future We plan to support more languages include:
+Current supported languages:
 
 * Javascript
-* C 
-* PHP 
-* Python3
+* PHP
+* Python3 (developing)
+
+in the future We plan to support more languages include:
+
+* C
+* Python2
 
 ## Highlights
 * Human readable rules like `"not empty"` or `">=15"`
