@@ -511,7 +511,8 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
     public Void visitAgeCompare(RebbValParser.AgeCompareContext ctx) {
         boolean result = false;
         visit(ctx.expression());
-        if (this.obj instanceof Date)
+        Object exprValue = getValue(ctx.expression());
+        if (this.obj instanceof Date && exprValue instanceof BigDecimal)
         {
             Date obj = (Date)this.obj;
 
@@ -528,13 +529,12 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
             }
             BigDecimal diff = BigDecimal.valueOf(y);
 
-            BigDecimal exprValue = (BigDecimal) getValue(ctx.expression());
             switch(ctx.op.getType()) {
                 case RebbValParser.OLDER:
-                    result = diff.compareTo(exprValue)  >= 0;
+                    result = diff.compareTo((BigDecimal) exprValue)  >= 0;
                     break;
                 case RebbValParser.YOUNGER:
-                    result = diff.compareTo(exprValue) < 0;
+                    result = diff.compareTo((BigDecimal) exprValue) < 0;
                     break;
             }
             if(result){
