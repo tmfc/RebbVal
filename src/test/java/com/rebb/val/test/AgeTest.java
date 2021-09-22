@@ -19,6 +19,8 @@ public class AgeTest {
         Date date1 = null;
         try {
             date1 = ft.parse("2020-05-01");
+            assertFalse(v.val(date1, "older than a_string"));
+
             assertTrue(v.val(date1, "younger than 18"));
             assertFalse(v.val(date1, "older than 18"));
             assertFalse(v.val(date1, "older than 1.8"));
