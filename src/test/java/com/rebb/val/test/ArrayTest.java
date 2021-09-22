@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RebbValArrayTest {
+public class ArrayTest {
 
     @Test
     public void testNumberInArray()

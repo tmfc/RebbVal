@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RebbValBooleanTest {
+public class BooleanTest {
 
     @BeforeEach
     public void before() {

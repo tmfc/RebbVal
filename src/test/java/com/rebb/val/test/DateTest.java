@@ -9,7 +9,7 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RebbValDateTest {
+public class DateTest {
 
     @Test
     public void testDateFunction() {

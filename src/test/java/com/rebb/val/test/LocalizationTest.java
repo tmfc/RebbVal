@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class RebbValLocalizationTest {
+public class LocalizationTest {
 
     @Test
     public void testGBCode()
