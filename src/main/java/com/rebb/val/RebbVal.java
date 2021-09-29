@@ -93,11 +93,20 @@ public class RebbVal {
         RebbValLexer lexer = new RebbValLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         RebbValParser parser = new RebbValParser(tokens);
+        parser.addErrorListener(RebbValErrorListener.INSTANCE);
         ParseTree tree = parser.unaryTests(); // parse
+
+        if(RebbValErrorListener.INSTANCE.hasError())
+        {
+            this.has_error = true;
+            this.errors.add(RebbValErrorListener.INSTANCE.getError());
+            return false;
+        }
 
         engine.setObject(object);
 
         engine.visit(tree);
+
         if(!engine.isValid())
         {
             this.has_error = true;
@@ -122,7 +131,4 @@ public class RebbVal {
     public List<String> getErrors() {
         return errors;
     }
-
-
-
 }
