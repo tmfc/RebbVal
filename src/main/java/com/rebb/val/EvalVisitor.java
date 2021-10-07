@@ -40,7 +40,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
 
     public void setObject(Object obj)
     {
-        this.valid = true;
+        this.valid = false;
         this.error = "";
 
         if(obj instanceof Double)
@@ -931,7 +931,7 @@ public class EvalVisitor extends RebbValBaseVisitor<Void> {
 
         public boolean checkISBN()
         {
-            String regex = "^(\\d{13})$|^(978\\-\\d\\-\\d{3}\\-\\d{5}\\-\\d)$";
+            String regex = "^(?:ISBN(?:-1[03])?:?●)?(?=[-0-9●]{17}$|[-0-9X●]{13}$|[0-9X]{10}$)(?:97[89][-●]?)?[0-9]{1,5}[-●]?(?:[0-9]+[-●]?){2}[0-9X]$";
             boolean result =checkRegex(regex);
             if(result)
             {
