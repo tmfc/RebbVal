@@ -7,7 +7,7 @@ import org.antlr.v4.runtime.Recognizer;
 import java.util.Objects;
 
 public class RebbValErrorListener extends BaseErrorListener {
-    private String error;
+    private String error = "";
 
     public static final RebbValErrorListener INSTANCE = new RebbValErrorListener();
 
@@ -22,6 +22,8 @@ public class RebbValErrorListener extends BaseErrorListener {
     {
         return this.error;
     }
+
+    public void clearError() { this.error = ""; }
 
     public boolean hasError()
     {

@@ -32,7 +32,10 @@ public class StringTest {
         RebbVal v = new RebbVal();
         assertTrue(v.val("This string", "starts with 'This'"));
         assertTrue(v.val("This string", "ends with 'string'"));
+        assertFalse(v.val("This string", "starts with 'This very long string'"));
+        assertFalse(v.val("This string", "ends with 'a very long string'"));
     }
+
     @Test
     public void testStringIn()
     {

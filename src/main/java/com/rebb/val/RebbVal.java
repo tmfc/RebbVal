@@ -100,6 +100,7 @@ public class RebbVal {
         {
             this.has_error = true;
             this.errors.add(RebbValErrorListener.INSTANCE.getError());
+            RebbValErrorListener.INSTANCE.clearError();
             return false;
         }
 

@@ -95,5 +95,4 @@ public class InternetTest {
         assertTrue(v.val("http://www.example.com/to/path?param1=foo&param2=bar", "is url"));
         assertFalse(v.val("somebody@somedomain.com", "is url"));
     }
-
 }
