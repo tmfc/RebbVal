@@ -1,4 +1,4 @@
-package com.rebb.val;
+package tech.rebb.val;
 
 public class RebbValException extends Exception{
     String message;

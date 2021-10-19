@@ -1,5 +1,5 @@
 // Generated from RebbVal.g4 by ANTLR 4.9
-package com.rebb.val;
+package tech.rebb.val;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**

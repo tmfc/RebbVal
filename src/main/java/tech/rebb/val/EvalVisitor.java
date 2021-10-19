@@ -1,4 +1,4 @@
-package com.rebb.val;
+package tech.rebb.val;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;

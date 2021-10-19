@@ -1,7 +1,7 @@
-package com.rebb.val.test;
+package tech.rebb.val.test;
 
-import com.rebb.val.DemoCustomValidator;
-import com.rebb.val.RebbVal;
+import tech.rebb.val.DemoCustomValidator;
+import tech.rebb.val.RebbVal;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

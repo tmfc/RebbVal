@@ -1,7 +1,7 @@
-package com.rebb.val.test;
+package tech.rebb.val.test;
 
-import com.rebb.val.RebbVal;
-import com.rebb.val.RebbValConfig;
+import tech.rebb.val.RebbVal;
+import tech.rebb.val.RebbValConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
