@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
+/**
+ * @author William
+ * @version 1.0.0
+ */
 public class RebbVal {
 
     EvalVisitor engine;
@@ -17,6 +21,9 @@ public class RebbVal {
 
     static private HashMap<Integer, Object> global_config = new HashMap<>();
 
+    /**
+     * construction function for RebbVal
+     */
     public RebbVal()
     {
         this.engine = new EvalVisitor("", global_config);
@@ -25,11 +32,22 @@ public class RebbVal {
 //        this.object = object;
     }
 
+    /**
+     * convert date string in 'yyyy-MM-dd' format to a java.util.Date object
+     * @param str date string in format "yyyy-MM-dd"
+     * @return date object
+     */
     public Date date(String str)
     {
         return date(str, "yyyy-MM-dd");
     }
 
+    /**
+     * convert date string to a java.util.Date object
+     * @param str date string
+     * @param pattern date pattern
+     * @return date object
+     */
     public Date date(String str, String pattern)
     {
         SimpleDateFormat ft = new SimpleDateFormat (pattern);
@@ -42,47 +60,67 @@ public class RebbVal {
         }
     }
 
+    /**
+     * convert year string to a java.util.Date object
+     * @param str year string in format 'yyyy'
+     * @return Date object for year-01-01
+     */
     public Date year(String str)
     {
         return date(str + "-01-01");
     }
 
+    /**
+     * Register a custom validator class in RebbVal engine
+     * @param name validator name
+     * @param clazz validator class
+     */
     public void registerCustomValidator(String name, Class clazz)
     {
         engine.registerCustomValidator(name, clazz);
     }
 
+    /**
+     * Set timezone
+     * @param timezone the timezone to set
+     */
     public void setTimezone(Locale timezone) { engine.setTimezone(timezone); }
 
+    /**
+     * Get timezone
+     * @return the timezone object
+     */
     public Locale getTimezone()
     {
         return engine.getTimezone();
     }
 
+    /**
+     * Add a global config
+     * @param key config item key
+     * @param value config item value
+     */
     public static void addGlobalConfig(Integer key, Object value)
     {
         global_config.put(key, value);
     }
 
+    /**
+     * Add a instance config
+     * @param key config item key
+     * @param value config item value
+     */
     public void addConfig(Integer key, Object value)
     {
         this.engine.addConfig(key, value);
     }
-    public boolean validate(Object object, String condition)
-    {
-//        this.condition = condition;
-//        this.object = object;
 
-        CharStream input = CharStreams.fromString(condition);
-        RebbValLexer lexer = new RebbValLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        RebbValParser parser = new RebbValParser(tokens);
-        ParseTree tree = parser.unaryTest(); // parse
-
-        engine.setObject(object);
-        engine.visit(tree);
-        return engine.isValid();
-    }
+    /**
+     * Do a validate
+     * @param object the object to be validated
+     * @param condition the validation condition
+     * @return validate result
+     */
     public boolean val(Object object, String condition)
     {
         this.errors = new ArrayList<String>();
@@ -125,10 +163,19 @@ public class RebbVal {
         return true;
     }
 
+    /**
+     * Is there errors
+     * @return True:has error(s)<br>
+     * False:no error
+     */
     public boolean hasError() {
         return has_error;
     }
 
+    /**
+     * Get error list
+     * @return error list
+     */
     public List<String> getErrors() {
         return errors;
     }

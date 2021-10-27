@@ -6,6 +6,11 @@ import org.antlr.v4.runtime.Recognizer;
 
 import java.util.Objects;
 
+/**
+ * Error listener that save error for later usage
+ * @author William
+ * @version 1.0.0
+ */
 public class RebbValErrorListener extends BaseErrorListener {
     private String error = "";
 

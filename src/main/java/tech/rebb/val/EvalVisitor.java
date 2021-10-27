@@ -13,6 +13,10 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author William
+ * @version 1.0.0
+ */
 public class EvalVisitor extends RebbValBaseVisitor<Void> {
     ParseTreeProperty<Object> values = new ParseTreeProperty<Object>();
 

@@ -1,5 +1,10 @@
 package tech.rebb.val;
 
+/**
+ * Demo class of custom validator
+ * @author William
+ * @version 1.0.0
+ */
 public class DemoCustomValidator implements IValidator {
 
     @Override
