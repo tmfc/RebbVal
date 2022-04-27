@@ -32,10 +32,8 @@ public class AgeTest {
             assertFalse(v.val(v.date("2003-01-01"), "younger than 18"));
             assertTrue(v.val(v.date("2003-01-01"), "older than 18"));
 
-            assertTrue(v.val(v.date("2004-01-01"), "younger than 18"));
-            assertFalse(v.val(v.date("2004-01-01"), "older than 18"));
-
-
+            assertTrue(v.val(v.date("2012-01-01"), "younger than 18"));
+            assertFalse(v.val(v.date("2012-01-01"), "older than 18"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
